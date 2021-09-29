@@ -33,13 +33,24 @@ class SecondPageVC : UIViewController {
         setupUI()
         configure()
     }
+    
     private func setupUI() {
         addImageHolder()
         addLabel()
     }
     private func configure() {
+        let activityView = UIActivityIndicatorView(style: .large)
+        activityView.center = self.view.center
+        activityView.startAnimating()
+
+        self.view.addSubview(activityView)
         if model != nil {
-            imgHolder.sd_setImage(with: URL(string: model.downloadUrl), completed: nil)
+            imgHolder.sd_setImage(with: URL(string: model.downloadUrl)) { image, error, cachetype, imageUrl in
+                if image != nil {
+                    activityView.stopAnimating()
+                    activityView.removeFromSuperview()
+                }
+            }
             lblCreatedAt.text = model.created_at
         }
     }

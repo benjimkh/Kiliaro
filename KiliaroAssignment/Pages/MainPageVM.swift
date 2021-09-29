@@ -38,7 +38,4 @@ class MainPageVM : NSObject {
         }
 
     }
-    private func calculateHeight() {
-        
-    }
 }
